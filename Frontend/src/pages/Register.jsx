@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser, clearAuthError } from "../features/auth/authSlice.js";
+import { registerUser, clearAuthError, checkUsername } from "../features/auth/authSlice.js";
 import { Link, useNavigate } from "react-router-dom";
 import { Lock, Mail, Sparkles, User } from "lucide-react";
+import { debounce } from "../utils/debounce.js";
 
 export default function Register() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { token, loading, error } = useSelector((state) => state.auth);
+    const { token, loading, error, usernameStatus } = useSelector((state) => state.auth);
 
     const [form, setForm] = useState({
         name: "",
@@ -26,8 +27,16 @@ export default function Register() {
         };
     }, [dispatch]);
 
-    const handleChange = (e) =>
+    const check = debounce((value) => {
+        if (value.length >= 3) { dispatch(checkUsername({ username: value })) }
+    }, 500);
+
+    const handleChange = (e) => {
         setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+        if (e.target.name === "username") check(e.target.value);
+    }
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -84,8 +93,9 @@ export default function Register() {
                                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                                 <input
                                     type="text"
+                                    name="name"
                                     value={form.name}
-                                    onChange={(e) => handleChange('name', e.target.value)}
+                                    onChange={(e) => handleChange(e)}
                                     className="w-full pl-11 pr-4 py-3 bg-pink-50/50 border border-pink-200 rounded-xl focus:border-rose-400 focus:ring-2 focus:ring-rose-200 outline-none transition-all"
                                     placeholder="Enter your full name"
                                     required
@@ -102,11 +112,14 @@ export default function Register() {
                                 <input
                                     type="text"
                                     value={form.username}
-                                    onChange={(e) => handleChange('username', e.target.value)}
+                                    name="username"
+                                    onChange={(e) => handleChange(e)}
                                     className="w-full pl-11 pr-4 py-3 bg-pink-50/50 border border-pink-200 rounded-xl focus:border-rose-400 focus:ring-2 focus:ring-rose-200 outline-none transition-all"
                                     placeholder="Choose a username"
                                     required
                                 />
+                                {form.username.length > 0 && <span className={`transform -translate-y-1/2 text-xs absolute right-3 top-1/2 ${usernameStatus === "available" ? "text-green-500" : usernameStatus === "error" ? "text-red-500" : "text-rose-500"}`}>{usernameStatus}</span>}
+
                             </div>
                         </div>
 
@@ -118,15 +131,15 @@ export default function Register() {
                                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                                 <input
                                     type="password"
+                                    name="password"
                                     value={form.password}
-                                    onChange={(e) => handleChange('password', e.target.value)}
+                                    onChange={(e) => handleChange(e)}
                                     className="w-full pl-11 pr-4 py-3 bg-pink-50/50 border border-pink-200 rounded-xl focus:border-rose-400 focus:ring-2 focus:ring-rose-200 outline-none transition-all"
                                     placeholder="Create a strong password"
                                     required
                                 />
                             </div>
                         </div>
-
 
 
                         <button

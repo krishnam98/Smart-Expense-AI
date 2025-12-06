@@ -72,3 +72,27 @@ export const login = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const checkUsername = async (req, res) => {
+  try {
+    const { username } = req.query;
+
+    if (!username || username.trim().length < 3) {
+      return res.status(400).json({
+        available: false,
+        message: "Username must be at least 3 characters.",
+      });
+    }
+
+    const exists = await User.findOne({ username: username.toLowerCase() });
+
+    if (exists) {
+      return res.json({ available: false, message: "Username already taken." });
+    }
+
+    return res.json({ available: true, message: "Username is available!" });
+  } catch (error) {
+    console.error("Username check error:", error);
+    res.status(500).json({ available: false, message: "Server error" });
+  }
+};

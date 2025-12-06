@@ -7,6 +7,8 @@ const tokenFromStorage = localStorage.getItem("token");
 const initialState = {
   user: userFromStorage ? JSON.parse(userFromStorage) : null,
   token: tokenFromStorage || null,
+  usernameStatus: null,
+  usernameMessage: null,
   loading: false,
   error: null,
 };
@@ -33,6 +35,20 @@ export const registerUser = createAsyncThunk(
         password,
         profilePhoto,
       });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Register failed");
+    }
+  }
+);
+
+export const checkUsername = createAsyncThunk(
+  "auth/checkUsername",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosClient.get(
+        "/auth/checkUsername?username=" + data.username
+      );
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Register failed");
@@ -88,6 +104,20 @@ const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(checkUsername.pending, (state) => {
+        state.usernameStatus = "checking";
+        state.usernameMessage = "checking....";
+      })
+      .addCase(checkUsername.fulfilled, (state, action) => {
+        state.usernameStatus = action.payload.available
+          ? "available"
+          : "username Taken";
+        state.usernameMessage = action.payload.message;
+      })
+      .addCase(checkUsername.rejected, (state, action) => {
+        state.usernameStatus = "error";
+        state.usernameMessage = action.payload.message;
       });
   },
 });
