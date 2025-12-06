@@ -13,22 +13,6 @@ export default function ExpenseAnalytics() {
         dispatch(fetchAnalyticalData());
     }, []);
 
-    // const fetchAnalytics = async () => {
-    //     try {
-    //         const response = await fetch("/api/expenses/last-six-months", {
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //             },
-    //         });
-    //         const data = await response.json();
-    //         setAnalyticsData(data);
-    //     } catch (error) {
-    //         console.error("Error fetching analytics:", error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
     const COLORS = [
         "#fb7185",
         "#f472b6",
@@ -119,13 +103,7 @@ export default function ExpenseAnalytics() {
                                     <CartesianGrid strokeDasharray="3 3" stroke="#fecdd3" />
                                     <XAxis dataKey="month" tick={{ fill: "#9f1239", fontSize: 11 }} />
                                     <YAxis tick={{ fill: "#9f1239", fontSize: 11 }} />
-                                    <Tooltip
-                                        contentStyle={{
-                                            backgroundColor: "#fff",
-                                            border: "1px solid #fecdd3",
-                                            borderRadius: "12px",
-                                        }}
-                                    />
+
                                     <Bar dataKey="total" fill={chartColors.primary} radius={[8, 8, 0, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>
@@ -213,6 +191,7 @@ export default function ExpenseAnalytics() {
                                                 label={({ name, percent }) =>
                                                     `${name}: ${(percent * 100).toFixed(0)}%`
                                                 }
+                                                style={{ fontSize: "8px" }}
                                                 outerRadius={60}
                                                 fill="#8884d8"
                                                 dataKey="value"
@@ -226,7 +205,7 @@ export default function ExpenseAnalytics() {
                                                     backgroundColor: "#fff",
                                                     border: "1px solid #fecdd3",
                                                     borderRadius: "8px",
-                                                    fontSize: "11px",
+                                                    fontSize: "4px",
                                                 }}
                                             />
                                         </PieChart>

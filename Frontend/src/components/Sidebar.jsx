@@ -66,16 +66,6 @@ export default function Sidebar({ isOpen, onClose }) {
                             <span >Analytics</span>
                         </button>
 
-                        <button
-                            onClick={() => setActivePage('insights')}
-                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${activePage === 'insights'
-                                ? 'bg-gradient-to-r from-pink-100 to-rose-100 text-rose-700 shadow-md'
-                                : 'text-gray-600 hover:bg-pink-50'
-                                }`}
-                        >
-                            <TrendingUp className="w-5 h-5" />
-                            <span>Insights</span>
-                        </button>
                     </nav>
 
                     {/* Footer */}

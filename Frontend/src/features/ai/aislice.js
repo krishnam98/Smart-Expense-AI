@@ -3,12 +3,12 @@ import axiosClient from "../../api/axiosClient";
 
 const initialState = {
   budget: null,
-  Loading: false,
+  loading: false,
   error: null,
 };
 
 export const fetchAIData = createAsyncThunk(
-  "expenses/fetchAll",
+  "budget/suggest",
   async (_, { rejectWithValue }) => {
     try {
       const budgetRes = await axiosClient.get("/budget/suggest");
