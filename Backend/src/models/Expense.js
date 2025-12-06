@@ -8,7 +8,7 @@ const expenseSchema = new mongoose.Schema(
     date: { type: Date, required: true },
     paymentMethod: {
       type: String,
-      enum: ["cash", "card", "upi", "netbanking", "other"],
+      enum: ["cash", "card", "upi", "netbanking", "other", "stripe"],
       default: "other",
     },
     category: { type: String }, // from Gemini
