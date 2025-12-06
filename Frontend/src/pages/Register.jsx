@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser, clearAuthError } from "../features/auth/authSlice.js";
 import { Link, useNavigate } from "react-router-dom";
+import { Lock, Mail, Sparkles, User } from "lucide-react";
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -126,21 +127,7 @@ export default function Register() {
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Profile Photo URL (Optional)
-                            </label>
-                            <div className="relative">
-                                <Image className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                <input
-                                    type="url"
-                                    value={form.profilePhoto}
-                                    onChange={(e) => handleChange('profilePhoto', e.target.value)}
-                                    className="w-full pl-11 pr-4 py-3 bg-pink-50/50 border border-pink-200 rounded-xl focus:border-rose-400 focus:ring-2 focus:ring-rose-200 outline-none transition-all"
-                                    placeholder="https://example.com/photo.jpg"
-                                />
-                            </div>
-                        </div>
+
 
                         <button
                             onClick={handleSubmit}

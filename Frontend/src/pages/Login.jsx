@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, clearAuthError } from "../features/auth/authSlice.js";
 import { Link, useNavigate } from "react-router-dom";
+import { User, Sparkles, Lock } from "lucide-react";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -76,7 +77,8 @@ export default function Login() {
                                 <input
                                     type="text"
                                     value={form.username}
-                                    onChange={(e) => handleChange('username', e.target.value)}
+                                    name="username"
+                                    onChange={(e) => handleChange(e)}
                                     className="w-full pl-11 pr-4 py-3 bg-pink-50/50 border border-pink-200 rounded-xl focus:border-rose-400 focus:ring-2 focus:ring-rose-200 outline-none transition-all"
                                     placeholder="Enter your username"
                                     required
@@ -93,7 +95,8 @@ export default function Login() {
                                 <input
                                     type="password"
                                     value={form.password}
-                                    onChange={(e) => handleChange('password', e.target.value)}
+                                    name="password"
+                                    onChange={(e) => handleChange(e)}
                                     className="w-full pl-11 pr-4 py-3 bg-pink-50/50 border border-pink-200 rounded-xl focus:border-rose-400 focus:ring-2 focus:ring-rose-200 outline-none transition-all"
                                     placeholder="Enter your password"
                                     required

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addExpense, fetchExpensesData } from "../features/expenses/expensesSlice.js";
-import { PlusCircle } from "lucide-react";
+import { Banknote, PlusCircle } from "lucide-react";
 
 export default function ExpenseForm() {
     const dispatch = useDispatch();
@@ -13,6 +13,7 @@ export default function ExpenseForm() {
         notes: "",
     });
     const [loading, setLoading] = useState(false);
+    const [stripeLoading, setStripeLoading] = useState(false);
 
     const handleChange = (e) =>
         setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -37,6 +38,32 @@ export default function ExpenseForm() {
             setLoading(false);
         }
     };
+
+    const handleStripePayment = async (e) => {
+        e.preventDefault();
+        if (!form.title || !form.amount) return;
+        console.log(form.title, form.amount);
+
+        try {
+            const res = await fetch("http://localhost:5000/payment/create-checkout-session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}` },
+                body: JSON.stringify({
+                    ...form,
+                    userId: JSON.parse(localStorage.getItem("user")).id,
+                }),
+            });
+
+            const { url } = await res.json();
+            window.location.href = url; // redirect to stripe
+            // console.log(url);
+        } catch (err) {
+            alert("Payment failed to start");
+        }
+    };
+
+
+
 
     return (
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-pink-100 space-y-4">
@@ -110,14 +137,25 @@ export default function ExpenseForm() {
                     />
                 </div>
             </div>
+            <div className="w-full flex justify-between">
 
-            <button
-                onClick={handleSubmit}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium shadow-lg hover:shadow-xl transition-all"
-            >
-                <PlusCircle className="w-5 h-5" />
-                Add Expense
-            </button>
+                <button
+                    onClick={handleSubmit}
+                    className=" flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium shadow-lg hover:shadow-xl transition-all"
+                >
+                    <PlusCircle className="w-5 h-5" />
+                    Add Expense
+                </button>
+                <button
+                    disabled={stripeLoading}
+                    onClick={handleStripePayment}
+                    className=" flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-medium shadow-lg transition-all"
+                >
+                    <Banknote className="w-5 h-5" />
+                    Pay
+                </button>
+            </div>
+
         </div>
     );
 }
