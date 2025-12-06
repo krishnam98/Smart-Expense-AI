@@ -108,7 +108,7 @@ Return JSON only with:
     },
   });
 
-  const text = response.text();
+  const text = response.candidates?.[0]?.content?.parts?.[0]?.text || "";
   try {
     const parsed = JSON.parse(text);
     return parsed;

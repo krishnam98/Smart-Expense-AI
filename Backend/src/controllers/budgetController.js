@@ -1,4 +1,5 @@
 import { Expense } from "../models/Expense.js";
+import { suggestMonthlyBudget } from "../services.js/gemini.js";
 
 export const suggestbudget = async (req, res) => {
   try {
