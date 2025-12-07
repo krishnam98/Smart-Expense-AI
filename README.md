@@ -97,14 +97,13 @@ All visualized using **Recharts** .
 ## 🧰 Tech Stack
 
 | Layer    | Technology                                                       |
-| -------- | ---------------------------------------------------------------- | -------------------------------------------------------------- | --- |
+| -------- | ---------------------------------------------------------------- |
 | Frontend | React (Vite), TailwindCSS, Redux Toolkit, Lucide Icons, Recharts |
 | Backend  | Node.js, Express.js                                              |
 | Database | MongoDB + Mongoose                                               |
 | AI       | Google Gemini API                                                |
 | Payments | Stripe Checkout + Webhooks                                       |
 | Auth     | JWT, bcrypt, protected routes                                    |
-| <!--     | Deployment                                                       | _(adjust based on where you deploy)_ Vercel / Render / Railway | --> |
 
 ## ⚙️ Installation & Setup
 
