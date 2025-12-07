@@ -9,6 +9,7 @@ import { Menu, Sparkles, X } from "lucide-react";
 import Sidebar from "../components/Sidebar.jsx";
 import TopBar from "../components/TopBar.jsx";
 import AIInsightCard from "../components/AIInsisghtCard.jsx";
+import { fetchAIData } from "../features/ai/aislice.js";
 
 export default function Dashboard() {
     const { currentMonthTotal, totalTransactions, loading } = useSelector((state) => state.expenses);
@@ -17,8 +18,12 @@ export default function Dashboard() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchExpensesData());
         console.log("Fetching expenses data...");
+        dispatch(fetchExpensesData());
+        console.log("Fetching AI Insights...");
+        dispatch(fetchAIData());
+
+
     }, [dispatch]);
 
 
@@ -51,7 +56,7 @@ export default function Dashboard() {
 
                             <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-5 shadow-sm border border-pink-200 hover:shadow-md transition-shadow">
                                 <p className="text-xs text-gray-600 mb-1 font-medium">AI suggested budget</p>
-                                <p className="text-2xl font-bold text-pink-700">₹{budget?.suggestedBudget ? `${budget.suggestedBudget.toLocaleString()}` : "--"}</p>
+                                <p className="text-2xl font-bold text-pink-700">₹{budget?.suggestedBudget ? `${budget?.suggestedBudget.toLocaleString()}` : "--"}</p>
                             </div>
 
                             <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-5 shadow-sm border border-amber-200 hover:shadow-md transition-shadow">
