@@ -19,6 +19,8 @@ app.use("/expense", expenseRouter);
 app.use("/budget", budgetRouter);
 app.use("/payment", payementRouter);
 
+app.head("/ping", (_, res) => res.sendStatus(200));
+
 const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
