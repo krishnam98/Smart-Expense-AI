@@ -6,7 +6,7 @@ export const createExpense = async (req, res) => {
   try {
     const { title, amount, date, paymentMethod, notes } = req.body;
 
-    const { category, subCategory } = await categorizeExpense({
+    const { category } = await categorizeExpense({
       title,
       amount,
       paymentMethod,
@@ -21,7 +21,6 @@ export const createExpense = async (req, res) => {
       paymentMethod,
       notes,
       category,
-      subCategory,
     });
 
     res.status(201).json(expense);
