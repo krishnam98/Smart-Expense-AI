@@ -45,7 +45,7 @@ export default function ExpenseForm() {
         console.log(form.title, form.amount);
 
         try {
-            const res = await fetch("http://localhost:5000/payment/create-checkout-session", {
+            const res = await fetch("https://smart-expense-ai.onrender.com/payment/create-checkout-session", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}` },
                 body: JSON.stringify({
