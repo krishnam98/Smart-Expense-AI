@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "https://smart-expense-ai.onrender.com/",
+  baseURL: "https://smart-expense-ai-1.onrender.com",
 });
 
 axiosClient.interceptors.request.use((config) => {
